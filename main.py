@@ -75,9 +75,15 @@ def test_delete_user_wrong(email):
     response = requests.delete(url)
     if response.status_code != 200:
         print("Teste: excluir usuário errado - SUCESSO")
-        print(response.json())
     else:
         print("Teste: excluir usuário errado - FALHA")
+
+def test_create_user_without_valid_email(user_data):
+    response = requests.post(base_url, json=user_data)
+    if response.status_code != 201:
+        print("Teste: criar usuário com email valido - SUCESSO")
+    else:
+        print("Teste: criar usuário com email válido - FALHA")
 
 # Teste 1 - Obter todos os usuários
 print("=== Teste 1 ===")
@@ -129,3 +135,14 @@ test_delete_user('joao@example.com')
 # Teste 8 - o sistema não deve permitir exclusão do usuário não cadastrado
 print("=== Teste 8 ===")
 test_delete_user_wrong('emailIncorreto@inc.com') 
+
+# Teste 9 - o sistema não deve permitir a criação de um usuário com email inválido
+print("=== Teste 9 ===")
+user_data = {
+    'nome': 'João',
+    'sobrenome': 'Silva',
+    'email': 'joaotestecom',
+    'senha': 'senha123',
+    'nasc': '1990-01-01'
+}
+test_create_user_without_valid_email(user_data)
