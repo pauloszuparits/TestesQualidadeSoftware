@@ -70,6 +70,15 @@ def test_delete_user(email):
     else:
         print("Teste: excluir usuário - FALHA")
 
+def test_delete_user_wrong(email):
+    url = base_url + '/' + email
+    response = requests.delete(url)
+    if response.status_code != 200:
+        print("Teste: excluir usuário errado - SUCESSO")
+        print(response.json())
+    else:
+        print("Teste: excluir usuário errado - FALHA")
+
 # Teste 1 - Obter todos os usuários
 print("=== Teste 1 ===")
 test_get_all_users()
@@ -116,3 +125,7 @@ test_update_user_email('joao@example.com', updated_data)
 # Teste 7 - Excluir usuário
 print("=== Teste 7 ===")
 test_delete_user('joao@example.com')
+
+# Teste 8 - o sistema não deve permitir exclusão do usuário não cadastrado
+print("=== Teste 8 ===")
+test_delete_user_wrong('emailIncorreto@inc.com') 
