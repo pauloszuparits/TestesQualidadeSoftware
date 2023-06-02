@@ -54,6 +54,14 @@ def test_update_user(email, updated_data):
     else:
         print("Teste: atualizar usuário - FALHA")
 
+def test_update_user_email(email, updated_data):
+    url = base_url + '/' + email
+    response = requests.put(url, json=updated_data)
+    if response.status_code == 201:
+        print("Teste: atualizar usuário email - FALHA")       
+    else:
+        print("Teste: atualizar usuário email - SUCESSO")
+
 # Teste 1 - Obter todos os usuários
 print("=== Teste 1 ===")
 test_get_all_users()
@@ -89,3 +97,10 @@ updated_data = {
     'nasc': '1990-01-01'
 }
 test_update_user('joao@example.com', updated_data)
+
+# Teste 6 - Tentar editar email
+print("=== Teste 6 ===")
+updated_data = {
+    'email': 'novousuario@example.com',
+}
+test_update_user_email('joao@example.com', updated_data)
