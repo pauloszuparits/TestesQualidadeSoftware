@@ -85,6 +85,15 @@ def test_create_user_without_valid_email(user_data):
     else:
         print("Teste: criar usuário com email válido - FALHA")
 
+def test_worng_update_user(email, updated_data):
+    url = base_url + '/' + email
+    response = requests.put(url, json=updated_data)
+    if response.status_code == 404:
+        print("Teste: atualizar usuário inesistente - SUCESSO")
+        print(response.json())
+    else:
+        print("Teste: atualizar usuário inesistente- FALHA")
+
 # Teste 1 - Obter todos os usuários
 print("=== Teste 1 ===")
 test_get_all_users()
@@ -146,3 +155,12 @@ user_data = {
     'nasc': '1990-01-01'
 }
 test_create_user_without_valid_email(user_data)
+
+# Teste 10 - o sistema não deve permitir que atualize um usuário com email não cadastrado
+print("=== Teste 10 ===")
+updated_data = {
+    'nome': 'Kleber',
+    'sobrenome': 'Silva',
+    'nasc': '1990-01-01'
+}
+test_worng_update_user("emailErrado@gmail.com", updated_data)
