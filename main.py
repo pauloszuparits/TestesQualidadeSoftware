@@ -62,6 +62,14 @@ def test_update_user_email(email, updated_data):
     else:
         print("Teste: atualizar usuário email - SUCESSO")
 
+def test_delete_user(email):
+    url = base_url + '/' + email
+    response = requests.delete(url)
+    if response.status_code == 200:
+        print("Teste: excluir usuário - SUCESSO")
+    else:
+        print("Teste: excluir usuário - FALHA")
+
 # Teste 1 - Obter todos os usuários
 print("=== Teste 1 ===")
 test_get_all_users()
@@ -104,3 +112,7 @@ updated_data = {
     'email': 'novousuario@example.com',
 }
 test_update_user_email('joao@example.com', updated_data)
+
+# Teste 7 - Excluir usuário
+print("=== Teste 7 ===")
+test_delete_user('joao@example.com')
