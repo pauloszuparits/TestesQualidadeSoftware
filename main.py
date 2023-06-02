@@ -46,6 +46,14 @@ def test_get_user_by_email(email):
         print("Teste: obter usuário por nome - FALHA")
 
 
+def test_update_user(email, updated_data):
+    url = base_url + '/' + email
+    response = requests.put(url, json=updated_data)
+    if response.status_code == 201:
+        print("Teste: atualizar usuário - SUCESSO")
+    else:
+        print("Teste: atualizar usuário - FALHA")
+
 # Teste 1 - Obter todos os usuários
 print("=== Teste 1 ===")
 test_get_all_users()
@@ -72,3 +80,12 @@ test_login(login_data)
 # Teste 4 - Obter usuário por email
 print("=== Teste 4 ===")
 test_get_user_by_email('joao@example.com')
+
+# Teste 5 - Atualizar usuário
+print("=== Teste 5 ===")
+updated_data = {
+    'nome': 'Kleber',
+    'sobrenome': 'Silva',
+    'nasc': '1990-01-01'
+}
+test_update_user('joao@example.com', updated_data)
