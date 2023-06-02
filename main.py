@@ -94,6 +94,13 @@ def test_worng_update_user(email, updated_data):
     else:
         print("Teste: atualizar usuário inesistente- FALHA")
 
+def test_create_user_already_created(user_data):
+    response = requests.post(base_url, json=user_data)
+    if response.status_code != 201:
+        print("Teste: criar usuário já criado - SUCESSO")
+    else:
+        print("Teste: criar usuário já criado - FALHA")
+
 # Teste 1 - Obter todos os usuários
 print("=== Teste 1 ===")
 test_get_all_users()
@@ -164,3 +171,15 @@ updated_data = {
     'nasc': '1990-01-01'
 }
 test_worng_update_user("emailErrado@gmail.com", updated_data)
+
+# Teste 11 - o sistema não deve permitir o cadastro de usuário que ja existe
+print("=== Teste 11 ===")
+user_data = {
+    'nome': 'João',
+    'sobrenome': 'Silva',
+    'email': 'joao@example.com',
+    'senha': 'senha123',
+    'nasc': '1990-01-01'
+}
+
+test_create_user_already_created(user_data);
