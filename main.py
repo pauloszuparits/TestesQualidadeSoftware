@@ -17,9 +17,22 @@ def test_create_user(user_data):
     response = requests.post(base_url, json=user_data)
     if response.status_code == 201:
         print("Teste: criar usuário - SUCESSO")
-        print(response.json())
+        pp = pprint.PrettyPrinter(indent=4)
+        pp.pprint(response.json()) 
     else:
         print("Teste: criar usuário - FALHA")
+
+def test_login(user_data):
+    url = base_url + '/login'
+    response = requests.post(url, json=user_data)
+    
+    if response.status_code == 200:
+        if "nome" not in str(response.json) or "sobrenome" not in str(response.json) or "nasc" not in str(response.json):
+             print("Teste: login - FALHA - NÃO RETORNA USUARIO")
+        else:
+           print("Teste: login - SUCESSO")
+    else:
+        print("Teste: login - FALHA")
 
 # Teste 1 - Obter todos os usuários
 print("=== Teste 1 ===")
@@ -35,3 +48,11 @@ user_data = {
     'nasc': '1990-01-01'
 }
 test_create_user(user_data)
+
+# Teste 3 - Login
+print("=== Teste 3 ===")
+login_data = {
+    'email': 'joao@example.com',
+    'senha': 'senha123'
+}
+test_login(login_data)
