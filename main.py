@@ -4,12 +4,13 @@ import pprint
 
 base_url = 'http://localhost:3000/cadastrados'
 
+def check_return(response):
+    return "nome" not in str(response) or "sobrenome" not in str(response) or "nasc" not in str(response)
+
 def test_get_all_users():
     response = requests.get(base_url)
     if response.status_code == 200:
-        print("Teste: obter todos os usuários - SUCESSO")
-        pp = pprint.PrettyPrinter(indent=4)
-        pp.pprint(response.json())    
+        print("Teste: obter todos os usuários - SUCESSO")   
     else:
         print("Teste: obter todos os usuários - FALHA")
 
@@ -17,8 +18,6 @@ def test_create_user(user_data):
     response = requests.post(base_url, json=user_data)
     if response.status_code == 201:
         print("Teste: criar usuário - SUCESSO")
-        pp = pprint.PrettyPrinter(indent=4)
-        pp.pprint(response.json()) 
     else:
         print("Teste: criar usuário - FALHA")
 
@@ -27,12 +26,25 @@ def test_login(user_data):
     response = requests.post(url, json=user_data)
     
     if response.status_code == 200:
-        if "nome" not in str(response.json) or "sobrenome" not in str(response.json) or "nasc" not in str(response.json):
+        if check_return(str(response.json())):
              print("Teste: login - FALHA - NÃO RETORNA USUARIO")
         else:
            print("Teste: login - SUCESSO")
     else:
         print("Teste: login - FALHA")
+
+def test_get_user_by_email(email):
+    url = base_url + '/' + email
+    response = requests.get(url)
+    if response.status_code == 200:
+        if check_return(str(response.json())):
+             print(response.json())
+             print("Teste: login - FALHA - NÃO RETORNA USUARIO")
+        else:
+           print("Teste: login - SUCESSO")
+    else:
+        print("Teste: obter usuário por nome - FALHA")
+
 
 # Teste 1 - Obter todos os usuários
 print("=== Teste 1 ===")
@@ -56,3 +68,7 @@ login_data = {
     'senha': 'senha123'
 }
 test_login(login_data)
+
+# Teste 4 - Obter usuário por email
+print("=== Teste 4 ===")
+test_get_user_by_email('joao@example.com')
