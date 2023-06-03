@@ -101,6 +101,15 @@ def test_create_user_already_created(user_data):
     else:
         print("Teste: criar usuário já criado - FALHA")
 
+def test_get_pwd(email):
+    url = base_url + '/' + email
+    response = requests.get(url)
+    if response.status_code == 200:
+        if "***" not in str(response.json()):
+             print("Teste: senha anonima - FALHA ")
+        else:
+           print("Teste: senha anonima - SUCESSO")
+
 # Teste 1 - Obter todos os usuários
 print("=== Teste 1 ===")
 test_get_all_users()
@@ -183,3 +192,7 @@ user_data = {
 }
 
 test_create_user_already_created(user_data);
+
+# Teste 12 - o sistema não pode retornar senha ao retornar os usuarios
+print("=== Teste 12 ===")
+test_get_pwd('joao@example.com')
